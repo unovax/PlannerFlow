@@ -19,6 +19,7 @@ import {
     UsersIcon,
     CurrencyDollarIcon,
     DocumentIcon,
+    HomeIcon,
 } from '@heroicons/vue/24/outline'
 import SidebarHeader from './SidebarHeader.vue'
 import SidebarLink from './SidebarLink.vue'
@@ -33,7 +34,8 @@ export default {
         DocumentIcon,
         SidebarHeader,
         SidebarLink,
-        DangerButton
+        DangerButton,
+        HomeIcon,
     },
     data() {
         return {
@@ -41,6 +43,7 @@ export default {
                 { name: 'Clientes', href: '/clientes', icon: UsersIcon },
                 { name: 'Monedas', href: '/monedas', icon: CurrencyDollarIcon },
                 { name: 'Pedidos', href: '/pedidos', icon: DocumentIcon },
+                { name: 'Almacenes', href: '/almacenes', icon: HomeIcon }
             ] as Link[],
         }
     },

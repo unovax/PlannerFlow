@@ -18,6 +18,9 @@ return new class extends Migration
             $table->string('code');
             $table->string('name');
             $table->string('address');
+            $table->string('city');
+            $table->string('state');
+            $table->string('country');
             $table->foreignId('tenant_id')->nullable()->constrained();
             $table->timestamps();
         });

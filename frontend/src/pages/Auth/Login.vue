@@ -28,19 +28,19 @@
     </Guest>
 </template>
 <script lang="ts">
-import Guest from '../../layouts/Guest.vue'
-import Input from '../../components/Forms/Input.vue'
-import PrimaryButton from '../../components/Forms/PrimaryButton.vue'
-import { User } from '../../types'
+import Guest from '@/layouts/Guest.vue'
+import Input from '@/components/Forms/Input.vue';
+import PrimaryButton from '@/components/Forms/PrimaryButton.vue'
+import { User } from '@/types'
 import { useVuelidate } from '@vuelidate/core'
 import { required, email } from '@vuelidate/validators'
-import axiosClient from '../../axiosClient'
+import axiosClient from '@/axiosClient'
 
 export default {
     components: {
         Guest,
         Input,
-        PrimaryButton
+        PrimaryButton,
     },
     data() {
         return {

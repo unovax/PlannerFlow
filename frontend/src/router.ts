@@ -4,6 +4,7 @@ import Clients from './pages/Catalogs/Clients.vue';
 import Currencies from './pages/Catalogs/Currencies.vue';
 import Login from './pages/Auth/Login.vue';
 import Register from './pages/Auth/Register.vue';
+import Warehouses from './pages/Catalogs/Warehouses.vue';
 
 const routes = [
   {
@@ -22,6 +23,12 @@ const routes = [
     path: '/monedas',
     component: Currencies,
     name: 'Monedas',
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/almacenes',
+    component: Warehouses,
+    name: 'Almacenes',
     meta: { requiresAuth: true },
   },
   {

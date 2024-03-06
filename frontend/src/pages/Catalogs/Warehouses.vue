@@ -51,9 +51,9 @@
             @changePage="changePage"
         />
         <Modal :show="createWarehouseModal || editWarehouseModal" maxWidth="800">
-            <template v-slot:header>Crear warehousee</template>
+            <template v-slot:header>Crear almacen</template>
             <template v-slot:content>
-                <div class="grid grid-cols-2 gap-4 p-4">
+                <div class="grid grid-cols-3 gap-4 p-4">
                     <Input
                         label="Código"
                         :errors="v$.warehouse.code?.$errors"
@@ -62,6 +62,7 @@
                         next_id="warehouse-name-input"
                     />
                     <Input
+                        container-class="col-span-2"
                         label="Nombre"
                         :errors="v$.warehouse.name?.$errors"
                         v-model="warehouse.name"
@@ -69,10 +70,32 @@
                         next_id="warehouse-symbol-input"
                     />
                     <Input
+                    label="Pais"
+                    :errors="v$.warehouse.country?.$errors"
+                    v-model="warehouse.country"
+                    id="warehouse-country-input"
+                    next_id="warehouse-exchange_rate-input"
+                    />
+                    <Input
+                    label="Estado"
+                    :errors="v$.warehouse.state?.$errors"
+                    v-model="warehouse.state"
+                    id="warehouse-state-input"
+                    next_id="warehouse-exchange_rate-input"
+                    />
+                    <Input
+                    label="Ciudad"
+                    :errors="v$.warehouse.city?.$errors"
+                    v-model="warehouse.city"
+                    id="warehouse-city-input"
+                    next_id="warehouse-exchange_rate-input"
+                    />
+                    <Input
+                        container-class="col-span-3"
                         label="Dirección"
-                        :errors="v$.warehouse.symbol?.$errors"
-                        v-model="warehouse.symbol"
-                        id="warehouse-symbol-input"
+                        :errors="v$.warehouse.address?.$errors"
+                        v-model="warehouse.address"
+                        id="warehouse-address-input"
                         next_id="warehouse-exchange_rate-input"
                     />
                 </div>
@@ -84,7 +107,7 @@
         </Modal>
         <ConfirmationModal
             :show="deleteWarehouseModal"
-            text="Estas seguro de querer eliminar este warehousee?"
+            text="Estas seguro de querer eliminar este almacen?"
             @success="deleteWarehouse"
             @cancel="erase"
         />
@@ -135,10 +158,12 @@ export default {
             } as Data,
             warehouse: {
                 id:null,
-                code: "",
-                name: "",
-                symbol: "",
-                exchange_rate: ""
+                code:"",
+                name:"",
+                address:"",
+                city:"",
+                state:"",
+                country:"",
             } as Warehouse,
             warehouses_body: {
                 size_page: localStorage.getItem('size_page') || 10,
@@ -157,8 +182,10 @@ export default {
             warehouse: {
                 code: { required },
                 name: { required },
-                symbol: { required },
-                exchange_rate: { required },
+                address: { required },
+                city: { required },
+                state: { required },
+                country: { required },
             },
         }
     },
@@ -260,10 +287,12 @@ export default {
         erase() {
             this.warehouse = {
                 id:null,
-                code: "",
-                name: "",
-                symbol: "",
-                exchange_rate: ""
+                code:"",
+                name:"",
+                address:"",
+                city:"",
+                state:"",
+                country:""
             };
             this.createWarehouseModal = false
             this.editWarehouseModal = false

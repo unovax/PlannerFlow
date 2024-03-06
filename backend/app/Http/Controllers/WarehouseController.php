@@ -20,6 +20,9 @@ class WarehouseController extends Controller
                     where('code', 'like', '%'.$request->search.'%')
                     ->orWhere('name', 'like', '%'.$request->search.'%')
                     ->orWhere('address', 'like', '%'.$request->search.'%')
+                    ->orWhere('city', 'like', '%'.$request->search.'%')
+                    ->orWhere('state', 'like', '%'.$request->search.'%')
+                    ->orWhere('country', 'like', '%'.$request->search.'%')
                     ->paginate($request->size_page);
                 return response()->json([
                     'data' => $warehouses,
