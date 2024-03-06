@@ -22,8 +22,8 @@
 </template>
 
 <script lang="ts">
-import PrimaryButton from '../Forms/PrimaryButton.vue'
-import DangerButton from '../Forms/DangerButton.vue'
+import PrimaryButton from '@forms/PrimaryButton.vue'
+import DangerButton from '@forms/DangerButton.vue'
 import { ExclamationCircleIcon } from '@heroicons/vue/24/outline'
 export default {
     components: {

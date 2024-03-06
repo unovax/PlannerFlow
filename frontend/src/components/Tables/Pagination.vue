@@ -50,7 +50,7 @@
 </template>
 <script lang="ts">
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline'
-import { Data } from '../../types'
+import { Data } from '@/types'
 
 export default {
     components: {

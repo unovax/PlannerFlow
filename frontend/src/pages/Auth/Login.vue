@@ -28,9 +28,9 @@
     </Guest>
 </template>
 <script lang="ts">
-import Guest from '@/layouts/Guest.vue'
-import Input from '@/components/Forms/Input.vue';
-import PrimaryButton from '@/components/Forms/PrimaryButton.vue'
+import Guest from '@layouts/Guest.vue';
+import Input from '@forms/Input.vue';
+import PrimaryButton from '@forms/PrimaryButton.vue'
 import { User } from '@/types'
 import { useVuelidate } from '@vuelidate/core'
 import { required, email } from '@vuelidate/validators'

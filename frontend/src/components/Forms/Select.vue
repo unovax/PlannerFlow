@@ -25,7 +25,7 @@
 
 <script lang="ts">
 
-import axiosClient from '../../axiosClient';
+import axiosClient from '@/axiosClient';
 
 interface Error {
     $message: string

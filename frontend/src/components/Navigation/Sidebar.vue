@@ -21,11 +21,11 @@ import {
     DocumentIcon,
     HomeIcon,
 } from '@heroicons/vue/24/outline'
-import SidebarHeader from './SidebarHeader.vue'
-import SidebarLink from './SidebarLink.vue'
-import { Link } from '../../types'
-import DangerButton from '../Forms/DangerButton.vue'
-import axiosClient from '../../axiosClient'
+import SidebarHeader from '@navigation/SidebarHeader.vue'
+import SidebarLink from '@navigation/SidebarLink.vue'
+import { Link } from '@/types'
+import DangerButton from '@forms/DangerButton.vue'
+import axiosClient from '@/axiosClient'
 
 export default {
     components: {

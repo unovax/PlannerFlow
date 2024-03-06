@@ -97,25 +97,25 @@
     </CatalogsLayout>
 </template>
 <script lang="ts">
-import Modal from '../../components/Containers/Modal.vue'
-import PrimaryButton from '../../components/Forms/PrimaryButton.vue'
-import DangerButton from '../../components/Forms/DangerButton.vue'
-import CatalogsLayout from '../../layouts/App.vue'
+import Modal from '@components/Containers/Modal.vue'
+import PrimaryButton from '@forms/PrimaryButton.vue'
+import DangerButton from '@forms/DangerButton.vue'
+import CatalogsLayout from '@layouts/App.vue'
 import {
     PlusIcon,
     PencilSquareIcon,
     TrashIcon,
 } from '@heroicons/vue/24/outline'
-import Input from '../../components/Forms/Input.vue'
+import Input from '@forms/Input.vue'
 import { useVuelidate } from '@vuelidate/core'
-import Icons from '../../components/Containers/Icons.vue'
+import Icons from '@components/Containers/Icons.vue'
 import axios from 'axios'
-import RowLoading from '../../components/Tables/RowLoading.vue'
-import ConfirmationModal from '../../components/Containers/ConfirmationModal.vue'
-import Search from '../../components/Forms/Search.vue'
-import Pagination from '../../components/Tables/Pagination.vue'
+import RowLoading from '@components/Tables/RowLoading.vue'
+import ConfirmationModal from '@components/Containers/ConfirmationModal.vue'
+import Search from '@forms/Search.vue'
+import Pagination from '@components/Tables/Pagination.vue'
 import { required } from '@vuelidate/validators'
-import { Data, Currency, RequestBody } from '../../types'
+import { Data, Currency, RequestBody } from '@/types'
 
 
 export default {
@@ -279,4 +279,4 @@ export default {
     },
 }
 </script>
-../types../../types
+../types@/types

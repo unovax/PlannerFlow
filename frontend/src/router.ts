@@ -8,6 +8,10 @@ import Warehouses from './pages/Catalogs/Warehouses.vue';
 
 const routes = [
   {
+    path: '/',
+    redirect: '/pedidos',
+  },
+  {
     path: '/pedidos',
     component: Orders,
     name: 'Pedidos',

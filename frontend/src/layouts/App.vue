@@ -14,8 +14,8 @@
     </div>
 </template>
 <script lang="ts">
-import Header from "../components/SidebarComponents/Header.vue";
-import Sidebar from "../components/SidebarComponents/Sidebar.vue";
+import Header from "@navigation/Header.vue";
+import Sidebar from "@navigation/Sidebar.vue";
 export default {
     components: {
         Header,

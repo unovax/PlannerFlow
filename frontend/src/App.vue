@@ -1,5 +1,5 @@
 <script lang="ts">
-import Sidebar from './components/SidebarComponents/Sidebar.vue'
+import Sidebar from '@navigation/Sidebar.vue'
   export default {
     components: {
       Sidebar

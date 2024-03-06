@@ -12,7 +12,7 @@
 </template>
 <script lang="ts">
 import { mapState } from 'vuex'
-import { Link } from '../../types'
+import { Link } from '@/types'
 export default {
     props: {
         link: {

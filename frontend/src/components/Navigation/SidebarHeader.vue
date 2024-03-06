@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import { mapState } from 'vuex'
-import SidebarToggleButton from './SidebarToggleButton.vue'
+import SidebarToggleButton from '@navigation/SidebarToggleButton.vue'
 
 export default {
   components: {

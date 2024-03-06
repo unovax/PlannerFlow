@@ -12,7 +12,7 @@
     </header>
 </template>
 <script lang="ts">
-import SidebarToggleButton from './SidebarToggleButton.vue'
+import SidebarToggleButton from '@navigation/SidebarToggleButton.vue'
 export default {
     components: {
         SidebarToggleButton
