@@ -6,6 +6,7 @@
     <input
       :id="id"
       v-model="model"
+      :type="type"
       :class="
         inputClass + ' border rounded-md p-2 w-full bg-gray-800 text-gray-300'
       "
@@ -13,13 +14,16 @@
       @input="$emit('input', $event)"
       v-on:keyup.enter="nextInput"
     />
-    <div v-for="error in errors" :key="error">
+    <div v-for="(error, index) in errors" :key="index">
       <span class="text-red-300">{{ error.$message }}</span>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+interface Error {
+  $message: string;
+}
 export default {
   props: {
     label: {
@@ -51,8 +55,12 @@ export default {
       required: false,
     },
     errors: {
-      type: Array,
+      type: Array as () => Error[],
       default: () => [],
+    },
+    type: {
+      type: String,
+      default: "text",
     },
   },
   methods: {

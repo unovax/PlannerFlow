@@ -1,8 +1,12 @@
-<script setup lang="ts">
+<script lang="ts">
+import Sidebar from './components/SidebarComponents/Sidebar.vue'
+  export default {
+    components: {
+      Sidebar
+    },
+  }
 </script>
 
 <template>
-  <div class="bg-black h-screen w-screen flex">
-    <router-view class="flex-1 overflow-auto"></router-view>
-  </div>
+  <router-view class="flex-1 overflow-auto"></router-view>
 </template>

@@ -20,10 +20,10 @@
 </template>
 <script lang="ts" setup>
     import { ref } from "vue";
-    import Modal from "../components/Modal.vue";
-    import PrimaryButton from "../components/PrimaryButton.vue";
-    import DangerButton from "../components/DangerButton.vue";
-    import CatalogsLayout from "../layouts/CatalogsLayout.vue";
+    import Modal from "../components/Containers/Modal.vue";
+    import PrimaryButton from "../components/Forms/PrimaryButton.vue";
+    import DangerButton from "../components/Forms/DangerButton.vue";
+    import CatalogsLayout from "../layouts/App.vue";
     import { PlusIcon  } from "@heroicons/vue/24/outline";
 
     const order = ref({

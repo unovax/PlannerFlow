@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 table {
-    @apply w-full;
+    @apply w-full max-w-full;
 }
 
 thead tr {
@@ -19,6 +19,6 @@ tbody tr {
 }
 
 td {
-    @apply p-2;
+    @apply p-2 truncate;
 }
 
