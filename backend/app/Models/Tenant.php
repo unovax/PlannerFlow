@@ -8,4 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class Tenant extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'phone',
+        'country',
+        'state',
+        'city',
+        'address',
+    ];
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }

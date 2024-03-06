@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tenant;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,21 +32,17 @@ class AuthController extends Controller
         ]);
     }
 
-    public function register(){
-        $data = request()->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|confirmed'
-        ]);
-
-        $data['password'] = bcrypt($data['password']);
-
-        $user = User::create($data);
+    public function register(Request $request){
+        $tenant = Tenant::create($request->all());
+        $user_data = $request->user;
+        $user_data['tenant_id'] = $tenant->id;
+        $user_data['password'] = bcrypt($user_data['password']);
+        $user = User::create($user_data);
 
         $token = $user->createToken('token')->plainTextToken;
 
         return response([
-            'user' => $user,
+            'user' => $user->load('tenant'),
             'token' => $token
         ]);
     }

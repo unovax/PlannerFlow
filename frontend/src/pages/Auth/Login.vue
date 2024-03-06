@@ -64,10 +64,9 @@ export default {
             this.v$.user.$touch()
             if (this.v$.user.$invalid) return
             axiosClient.post('/login', this.user)
-                .then(response => {
-                    console.log(response)
-                    response.data.user.token = response.data.token;
-                    localStorage.setItem('user', JSON.stringify(response.data.user));
+                .then(({ data }) => {
+                    data.user.token = data.token;
+                    localStorage.setItem('user', JSON.stringify(data.user));
                     this.$router.push({ name: 'Clientes' })
                 })
                 .catch(error => {

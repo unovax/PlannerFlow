@@ -52,6 +52,17 @@ export interface Warehouse {
     city: string,
 }
 
+export interface Tenant {
+    id: number | null,
+    name: string,
+    phone: string,
+    country: string,
+    state: string,
+    city: string,
+    address: string,
+    user: User,
+}
+
 export interface User {
     id: number | null,
     name: string,
@@ -59,4 +70,29 @@ export interface User {
     password: string,
     password_confirmation: string,
     role: string,
+    tenant_id: number | string,
 }
+
+export const emptyUser: User = {
+    id: 0,
+    name: "",
+    email: "",
+    password: "",
+    password_confirmation: "",
+    role: "",
+    tenant_id: "",
+};
+
+export const emptyTenant: Tenant = {
+    id: 0,
+    name: "",
+    phone: "",
+    address: "",
+    country: "",
+    state: "",
+    city: "",
+    user: emptyUser,
+  };
+
+
+

@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-black h-screen w-screen flex">
+    <div class="bg-black h-screen w-screen flex overflow-hidden">
         <Sidebar />
         <div class="h-full flex flex-col w-full">
             <Header :title="title">

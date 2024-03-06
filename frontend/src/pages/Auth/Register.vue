@@ -2,32 +2,68 @@
     <Guest>
         <section class="w-full max-w-[600px] bg-gray-900 rounded-xl overflow-hidden">
             <h1 class="bg-gray-800 text-white font-bold text-lg px-4 py-2">Crear cuenta</h1>
-            <div class="p-4 space-y-2">
+            <div class="p-4 gap-2 grid grid-cols-1">
+                <Input
+                    label="Empresa"
+                    :errors="v$.tenant.name?.$errors"
+                    v-model="tenant.name"
+                    id="tenant-name-input"
+                />
                 <Input
                     label="Nombre"
-                    :errors="v$.user.name?.$errors"
-                    v-model="user.name"
-                    id="user-name-input"
+                    :errors="v$.tenant.user.name?.$errors"
+                    v-model="tenant.user.name"
+                    id="tenant.user-name-input"
                 />
                 <Input
                     label="Correo electronico"
-                    :errors="v$.user.email?.$errors"
-                    v-model="user.email"
-                    id="user-email-input"
+                    :errors="v$.tenant.user.email?.$errors"
+                    v-model="tenant.user.email"
+                    id="tenant.user-email-input"
+                />
+                <Input
+                    label="Telefono"
+                    :errors="v$.tenant.phone?.$errors"
+                    v-model="tenant.phone"
+                    id="tenant-phone-input"
+                />
+                <Input
+                    label="Pais"
+                    :errors="v$.tenant.country?.$errors"
+                    v-model="tenant.country"
+                    id="tenant-country-input"
+                />
+                <Input
+                    label="Estado"
+                    :errors="v$.tenant.state?.$errors"
+                    v-model="tenant.state"
+                    id="tenant-state-input"
+                />
+                <Input
+                    label="Ciudad"
+                    :errors="v$.tenant.city?.$errors"
+                    v-model="tenant.city"
+                    id="tenant-city-input"
+                />
+                <Input
+                    label="Dirección"
+                    :errors="v$.tenant.address?.$errors"
+                    v-model="tenant.address"
+                    id="tenant-address-input"
                 />
                 <Input
                     label="Contraseña"
                     type="password"
-                    :errors="v$.user.password?.$errors"
-                    v-model="user.password"
-                    id="user-password-input"
+                    :errors="v$.tenant.user.password?.$errors"
+                    v-model="tenant.user.password"
+                    id="tenant.user-password-input"
                 />
                 <Input
                     label="Confirmar contraseña"
                     type="password"
-                    :errors="v$.user.password_confirmation?.$errors"
-                    v-model="user.password_confirmation"
-                    id="user-password_confirmation-input"
+                    :errors="v$.tenant.user.password_confirmation?.$errors"
+                    v-model="tenant.user.password_confirmation"
+                    id="tenant.user-password_confirmation-input"
                 />
                 <div class="py-2 flex items-center justify-between gap-2">
                     <a href="/login" class="text-blue-500 hover:underline">Ya tengo cuenta</a>
@@ -41,7 +77,7 @@
 import Guest from '@layouts/Guest.vue'
 import Input from '@forms/Input.vue'
 import PrimaryButton from '@forms/PrimaryButton.vue'
-import { User } from '@/types'
+import { Tenant, emptyTenant } from '@/types'
 import { useVuelidate } from '@vuelidate/core'
 import { required, email } from '@vuelidate/validators'
 import axiosClient from '@/axiosClient'
@@ -54,32 +90,37 @@ export default {
     },
     data() {
         return {
-            user: {
-                name: '',
-                email: '',
-                password: '',
-                password_confirmation: '',
-            } as User,
+            tenant: emptyTenant as Tenant,
             v$: useVuelidate(),
         }
     },
     validations() {
         return {
-            user: {
+            tenant: {
                 name: required,
-                email: { required , email },
-                password: required,
-                password_confirmation: required,
+                phone: required,
+                country: required,
+                state: required,
+                city: required,
+                address: required,
+                user: {
+                    name: required,
+                    email: { required, email },
+                    password: required,
+                    password_confirmation: required
+                }
             },
         }
     },
     methods:{
         register() {
-            this.v$.user.$touch()
-            if (this.v$.user.$invalid) return
-            axiosClient.post('/register', this.user)
-                .then(() => {
-                    this.$router.push('/login')
+            this.v$.tenant.$touch()
+            if (this.v$.tenant.$invalid) return
+            axiosClient.post('/register', this.tenant)
+                .then(({ data }) => {
+                    data.user.token = data.token;
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    this.$router.push({ name: 'Clientes' })
                 })
                 .catch((error) => {
                     console.log(error)

@@ -7,9 +7,7 @@
         <ul class="flex-1 w-full p-2 gap-2 flex flex-col">
             <SidebarLink v-for="link in links" :key="link.name" :link="link" />
         </ul>
-        <div class="px-4 py-2">
-            <DangerButton class="w-full" v-on:click="logout">Cerrar sesion</DangerButton>   
-        </div>
+        <SidebarFooter/>
     </nav>
 </template>
 
@@ -25,7 +23,7 @@ import SidebarHeader from '@navigation/SidebarHeader.vue'
 import SidebarLink from '@navigation/SidebarLink.vue'
 import { Link } from '@/types'
 import DangerButton from '@forms/DangerButton.vue'
-import axiosClient from '@/axiosClient'
+import SidebarFooter from '@navigation/SidebarFooter.vue'
 
 export default {
     components: {
@@ -33,6 +31,7 @@ export default {
         CurrencyDollarIcon,
         DocumentIcon,
         SidebarHeader,
+        SidebarFooter,
         SidebarLink,
         DangerButton,
         HomeIcon,
@@ -51,14 +50,6 @@ export default {
         ...mapState(['sidebar']),
         currentRoute() {
             return this.$route.name
-        },
-    },
-    methods: {
-        logout() {
-            axiosClient.post('/logout').then(() => {
-                localStorage.removeItem('user');
-                this.$router.push('/login')
-            })
         },
     },
 }

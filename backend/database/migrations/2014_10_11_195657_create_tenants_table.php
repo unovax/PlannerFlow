@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('tenants', function (Blueprint $table) {
             $table->id();
-            $table->string('code');
+            $table->string('phone');
             $table->string('name');
             $table->string('address');
             $table->string('country');
