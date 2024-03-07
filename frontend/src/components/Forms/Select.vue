@@ -3,20 +3,29 @@
         <label :for="id" :class="labelClass" class="text-gray-300">{{
             label
         }}</label>
-        <select
-            :id="id"
-            v-model="model"
-            :class="
-                inputClass +
-                ' border rounded-md p-2 w-full bg-gray-800 text-gray-300'
-            "
-            :placeholder="label"
-            @input="$emit('input', $event)"
-            v-on:keyup.enter="nextInput"
-        >
-            <option :value="0">{{ defaultOption }}</option>
-            <option v-for="item in items" :key="item[value]" :value="item[value]">{{ item[name] }}</option>
-        </select>
+        <div class="flex gap-2 items-center">
+            <select
+                :id="id"
+                v-model="model"
+                :class="
+                    inputClass +
+                    ' border rounded-md p-2 w-full bg-gray-800 text-gray-300'
+                "
+                :placeholder="label"
+                @input="$emit('input', $event)"
+                v-on:keyup.enter="nextInput"
+            >
+                <option :value="0">{{ defaultOption }}</option>
+                <option
+                    v-for="item in items"
+                    :key="item[value]"
+                    :value="item[value]"
+                >
+                    {{ item[name] }}
+                </option>
+            </select>
+            <slot name="actions"></slot>
+        </div>
         <div v-for="(error, index) in errors" :key="index">
             <span class="text-red-300">{{ error.$message }}</span>
         </div>
@@ -24,17 +33,16 @@
 </template>
 
 <script lang="ts">
-
-import axiosClient from '@/axiosClient';
+import axiosClient from '@/axiosClient'
 
 interface Error {
     $message: string
 }
 
 interface Option {
-    id: number;
-    name: string;
-    [key: string]: number | string;
+    id: number
+    name: string
+    [key: string]: number | string
 }
 
 export default {
@@ -81,11 +89,11 @@ export default {
         },
         value: {
             type: String,
-            default: 'id'
+            default: 'id',
         },
         name: {
             type: String,
-            default: 'name'
+            default: 'name',
         },
         catalog: {
             type: String,
@@ -99,9 +107,16 @@ export default {
     },
     created() {
         if (!this.options) {
-            axiosClient.get('catalogs/'+this.catalog ?? "").then((response) => {
-                this.items = response.data
-            })
+            axiosClient
+                .get('catalogs/' + this.catalog ?? '', {
+                    params: {
+                        value: this.value,
+                        name: this.name,
+                    },
+                })
+                .then((response) => {
+                    this.items = response.data
+                })
         }
     },
     methods: {

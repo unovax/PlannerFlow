@@ -5,6 +5,7 @@ import Currencies from './pages/Catalogs/Currencies.vue';
 import Login from './pages/Auth/Login.vue';
 import Register from './pages/Auth/Register.vue';
 import Warehouses from './pages/Catalogs/Warehouses.vue';
+import Roles from './pages/Catalogs/Roles.vue';
 
 const routes = [
   {
@@ -33,6 +34,12 @@ const routes = [
     path: '/almacenes',
     component: Warehouses,
     name: 'Almacenes',
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/roles',
+    component: Roles,
+    name: 'Roles',
     meta: { requiresAuth: true },
   },
   {

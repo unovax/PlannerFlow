@@ -35,6 +35,7 @@ import { User } from '@/types'
 import { useVuelidate } from '@vuelidate/core'
 import { required, email } from '@vuelidate/validators'
 import axiosClient from '@/axiosClient'
+import { mapActions } from 'vuex';
 
 export default {
     components: {
@@ -60,13 +61,14 @@ export default {
         }
     },
     methods: {
+        ...mapActions(['loginUser']),
         login() {
             this.v$.user.$touch()
             if (this.v$.user.$invalid) return
             axiosClient.post('/login', this.user)
                 .then(({ data }) => {
                     data.user.token = data.token;
-                    localStorage.setItem('user', JSON.stringify(data.user));
+                    this.loginUser(data.user);
                     this.$router.push({ name: 'Clientes' })
                 })
                 .catch(error => {

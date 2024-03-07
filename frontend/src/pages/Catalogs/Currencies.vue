@@ -109,13 +109,13 @@ import {
 import Input from '@forms/Input.vue'
 import { useVuelidate } from '@vuelidate/core'
 import Icons from '@components/Containers/Icons.vue'
-import axios from 'axios'
 import RowLoading from '@components/Tables/RowLoading.vue'
 import ConfirmationModal from '@components/Containers/ConfirmationModal.vue'
 import Search from '@forms/Search.vue'
 import Pagination from '@components/Tables/Pagination.vue'
 import { required } from '@vuelidate/validators'
 import { Data, Currency, RequestBody } from '@/types'
+import axiosClient from '@/axiosClient'
 
 
 export default {
@@ -149,7 +149,7 @@ export default {
             currencies_body: {
                 size_page: localStorage.getItem('size_page') || 10,
                 search: '',
-                link: 'http://127.0.0.1:8000/api/currencies',
+                link: 'currencies',
             } as RequestBody,
             createCurrencyModal: false,
             editCurrencyModal: false,
@@ -189,7 +189,7 @@ export default {
         },
         getCurrencies() {
             this.loading = true
-            axios
+            axiosClient
                 .get(this.currencies_body.link, {
                     params: {
                         ...this.currencies_body,
@@ -213,8 +213,8 @@ export default {
         createCurrency() {
             this.v$.currency.$touch()
             if (this.v$.currency.$invalid) return
-            axios
-                .post('http://127.0.0.1:8000/api/currencies', this.currency)
+            axiosClient
+                .post('currencies', this.currency)
                 .then((response) => {
                     this.currencies.data.push(response.data.data)
                     this.erase()
@@ -234,9 +234,9 @@ export default {
         editCurrency() {
             this.v$.currency.$touch()
             if (this.v$.currency.$invalid) return
-            axios
+            axiosClient
                 .put(
-                    `http://127.0.0.1:8000/api/currencies/${this.currency.id}`,
+                    `currencies/${this.currency.id}`,
                     this.currency
                 )
                 .then((response) => {
@@ -251,8 +251,8 @@ export default {
                 })
         },
         deleteCurrency() {
-            axios
-                .delete(`http://127.0.0.1:8000/api/currencies/${this.currency.id}`)
+            axiosClient
+                .delete(`currencies/${this.currency.id}`)
                 .then(() => {
                     this.currencies.data = this.currencies.data.filter(
                         (c) => c.id !== this.currency.id

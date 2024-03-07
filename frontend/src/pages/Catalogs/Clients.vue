@@ -176,7 +176,6 @@ import {
 import Input from '@forms/Input.vue'
 import { useVuelidate } from '@vuelidate/core'
 import Icons from '@components/Containers/Icons.vue'
-import axios from 'axios'
 import RowLoading from '@components/Tables/RowLoading.vue'
 import ConfirmationModal from '@components/Containers/ConfirmationModal.vue'
 import Search from '@forms/Search.vue'
@@ -225,7 +224,7 @@ export default {
             clients_body: {
                 size_page: localStorage.getItem('size_page') || 10,
                 search: '',
-                link: 'http://127.0.0.1:8000/api/clients',
+                link: 'clients',
             } as RequestBody,
             createClientModal: false,
             editClientModal: false,
@@ -271,7 +270,7 @@ export default {
         },
         getClients() {
             this.loading = true
-            axios
+            axiosClient
                 .get(this.clients_body.link, {
                     params: {
                         ...this.clients_body,

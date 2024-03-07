@@ -16,6 +16,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        //utilizar permission seeder
+        $this->call(PermissionSeeder::class);
+        $this->call(TenantSeeder::class);
+
         Client::factory(200)->create();
     }
 }

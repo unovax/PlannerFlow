@@ -14,7 +14,7 @@
 </template>
 <script lang="ts">
 import axiosClient from '@/axiosClient';
-import { User, emptyUser } from '@/types';
+import { User, EmptyUser } from '@/types/users';
 import DangerButton from '@forms/DangerButton.vue';
 import { ChevronRightIcon } from '@heroicons/vue/24/outline';
 import SidebarLink from '@navigation/SidebarLink.vue';
@@ -26,7 +26,7 @@ export default {
     },
     data() {
         return {
-            user: JSON.parse(localStorage.getItem('user') as string) ?? emptyUser as User,
+            user: JSON.parse(localStorage.getItem('user') as string) ?? EmptyUser as User,
             show: false as boolean
         }
     },

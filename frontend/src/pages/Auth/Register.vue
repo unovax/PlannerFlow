@@ -77,10 +77,11 @@
 import Guest from '@layouts/Guest.vue'
 import Input from '@forms/Input.vue'
 import PrimaryButton from '@forms/PrimaryButton.vue'
-import { Tenant, emptyTenant } from '@/types'
+import { Tenant, EmptyTenant } from '@/types/users'
 import { useVuelidate } from '@vuelidate/core'
 import { required, email } from '@vuelidate/validators'
 import axiosClient from '@/axiosClient'
+import { mapActions } from 'vuex'
 
 export default {
     components: {
@@ -90,7 +91,7 @@ export default {
     },
     data() {
         return {
-            tenant: emptyTenant as Tenant,
+            tenant: EmptyTenant as Tenant,
             v$: useVuelidate(),
         }
     },
@@ -113,13 +114,14 @@ export default {
         }
     },
     methods:{
+        ...mapActions(['loginUser']),
         register() {
             this.v$.tenant.$touch()
             if (this.v$.tenant.$invalid) return
             axiosClient.post('/register', this.tenant)
                 .then(({ data }) => {
                     data.user.token = data.token;
-                    localStorage.setItem('user', JSON.stringify(data.user));
+                    this.loginUser(data.user);
                     this.$router.push({ name: 'Clientes' })
                 })
                 .catch((error) => {

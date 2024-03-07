@@ -126,14 +126,13 @@ import {
 import Input from '@forms/Input.vue'
 import { useVuelidate } from '@vuelidate/core'
 import Icons from '@components/Containers/Icons.vue'
-import axios from 'axios'
 import RowLoading from '@components/Tables/RowLoading.vue'
 import ConfirmationModal from '@components/Containers/ConfirmationModal.vue'
 import Search from '@forms/Search.vue'
 import Pagination from '@components/Tables/Pagination.vue'
 import { required } from '@vuelidate/validators'
 import { Data, Warehouse, RequestBody } from '@/types'
-
+import axiosClient from '@/axiosClient'
 
 export default {
     components: {
@@ -168,7 +167,7 @@ export default {
             warehouses_body: {
                 size_page: localStorage.getItem('size_page') || 10,
                 search: '',
-                link: 'http://127.0.0.1:8000/api/warehouses',
+                link: 'warehouses',
             } as RequestBody,
             createWarehouseModal: false,
             editWarehouseModal: false,
@@ -210,7 +209,7 @@ export default {
         },
         getWarehouses() {
             this.loading = true
-            axios
+            axiosClient
                 .get(this.warehouses_body.link, {
                     params: {
                         ...this.warehouses_body,
@@ -234,8 +233,8 @@ export default {
         createWarehouse() {
             this.v$.warehouse.$touch()
             if (this.v$.warehouse.$invalid) return
-            axios
-                .post('http://127.0.0.1:8000/api/warehouses', this.warehouse)
+            axiosClient
+                .post('warehouses', this.warehouse)
                 .then((response) => {
                     this.warehouses.data.push(response.data.data)
                     this.erase()
@@ -255,9 +254,9 @@ export default {
         editWarehouse() {
             this.v$.warehouse.$touch()
             if (this.v$.warehouse.$invalid) return
-            axios
+            axiosClient
                 .put(
-                    `http://127.0.0.1:8000/api/warehouses/${this.warehouse.id}`,
+                    `warehouses/${this.warehouse.id}`,
                     this.warehouse
                 )
                 .then((response) => {
@@ -272,8 +271,8 @@ export default {
                 })
         },
         deleteWarehouse() {
-            axios
-                .delete(`http://127.0.0.1:8000/api/warehouses/${this.warehouse.id}`)
+            axiosClient
+                .delete(`warehouses/${this.warehouse.id}`)
                 .then(() => {
                     this.warehouses.data = this.warehouses.data.filter(
                         (c) => c.id !== this.warehouse.id
