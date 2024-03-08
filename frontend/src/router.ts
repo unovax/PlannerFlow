@@ -6,6 +6,9 @@ import Login from './pages/Auth/Login.vue';
 import Register from './pages/Auth/Register.vue';
 import Warehouses from './pages/Catalogs/Warehouses.vue';
 import Roles from './pages/Catalogs/Roles.vue';
+import Users from './pages/Catalogs/Users.vue';
+import Categories from './pages/Catalogs/Categories.vue';
+import Products from './pages/Catalogs/Products.vue';
 
 const routes = [
   {
@@ -40,6 +43,24 @@ const routes = [
     path: '/roles',
     component: Roles,
     name: 'Roles',
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/usuarios',
+    component: Users,
+    name: 'Users',
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/categorias',
+    component: Categories,
+    name: 'Categories',
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/productos',
+    component: Products,
+    name: 'Products',
     meta: { requiresAuth: true },
   },
   {

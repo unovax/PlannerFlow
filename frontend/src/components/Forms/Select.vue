@@ -15,11 +15,12 @@
                 @input="$emit('input', $event)"
                 v-on:keyup.enter="nextInput"
             >
-                <option :value="0">{{ defaultOption }}</option>
+                <option v-if="typeof modelValue == 'number'" value="0">{{ defaultOption }}</option>
+                <option v-if="typeof modelValue == 'object'" :value="null">{{ defaultOption }}</option>
                 <option
                     v-for="item in items"
                     :key="item[value]"
-                    :value="item[value]"
+                    :value="canReturnItem ? item : item[value]"
                 >
                     {{ item[name] }}
                 </option>
@@ -52,7 +53,7 @@ export default {
             required: true,
         },
         modelValue: {
-            type: [String, Number],
+            type: [ String, Number, Object ],
             required: true,
         },
         containerClass: {
@@ -98,6 +99,10 @@ export default {
         catalog: {
             type: String,
             required: false,
+        },
+        canReturnItem: {
+            type: Boolean,
+            default: false,
         },
     },
     data() {

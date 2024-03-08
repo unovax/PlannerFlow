@@ -1,13 +1,14 @@
 <template>
     <section :class="containerClass">
         <Select
-            label="Permisos"
-            :errors="v$.option_id?.$errors"
-            v-model="option_id"
-            id="option_id-input"
+            canReturnItem
+            :label="label"
+            :errors="v$.option?.$errors"
+            v-model="option"
+            id="option-input"
             next_id="role-symbol-input"
             :catalog="catalog"
-            name="display_name"
+            :name="name"
         >
             <template v-slot:actions>
                 <PrimaryButton v-on:click="addItem">
@@ -42,11 +43,12 @@ import { useVuelidate } from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 import Select from '@forms/Select.vue'
 import PrimaryButton from './PrimaryButton.vue'
-import axiosClient from '@/axiosClient'
 
 interface Column {
+    id?: number;
     name: string;
     label: string;
+    display_name?: string;
 }
 
 export default {
@@ -60,8 +62,12 @@ export default {
         columns: {
             type: Array as () => Column[],
             defaults: () => [
-                { name: 'name', label: 'Nombre' },
+                { name: 'display_name', label: 'Nombre' },
             ],
+        },
+        name: {
+            type: String,
+            required: true,
         },
         value: {
             type: String,
@@ -78,30 +84,44 @@ export default {
         withHeaders: {
             type: Boolean,
             default: true,
-        }
+        },
+        noRepeatItems: {
+            type: Boolean,
+            default: false,
+        },
+        modelValue: {
+            type: [ Array ],
+            required: true,
+        },
+        label: {
+            type: String,
+            default: 'Elementos',
+        },
     },
     data() {
         return {
             items: [],
-            option_id: 0,
+            option: {} as Column,
             v$: useVuelidate()
         }
     },
     validations() {
         return {
-            option_id: {
+            option: {
                 required,
             },
         }
     },
+    created(){
+        this.items = this.modelValue as never[];
+    },
     methods: {
         addItem() {
-            console.log("sadas")
-            this.v$.option_id.$touch()
-            if (this.v$.option_id.$invalid) return
-            axiosClient.get(`catalogs/${this.catalog}/${this.option_id}`).then((response) => {
-                this.items.push(response.data as never);
-            })
+            this.v$.option.$touch()
+            if (this.v$.option.$invalid) return
+            console.log(this.option)
+            this.items.push({ id: this.option.id, display_name: this.option.display_name, name: this.option.name, label: this.option.label } as never);
+            this.$emit('update:modelValue', this.items)
         },
         deleteItem(index: number) {
             this.items.splice(index, 1)

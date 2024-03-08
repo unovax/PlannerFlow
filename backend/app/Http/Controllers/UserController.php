@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class RoleController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,24 +16,22 @@ class RoleController extends Controller
     public function index(Request $request)
     {
         try {
-            $roles = Role::where('tenant_id', Auth::user()->tenant_id);
+            $users = User::where('tenant_id', Auth::user()->tenant_id);
             if($request->has('search')){
-                $roles = Role::
-                    with('permissions')
-                    ->where('code', 'like', '%'.$request->search.'%')
-                    ->orWhere('name', 'like', '%'.$request->search.'%')
-                    ->orWhere('description', 'like', '%'.$request->search.'%')
+                $users = User::
+                    with('roles')
+                    ->where('name', 'like', '%'.$request->search.'%')
                     ->paginate($request->size_page);
                 return response()->json([
-                    'data' => $roles,
-                    'message' => 'Roles retrieved',
+                    'data' => $users,
+                    'message' => 'Users retrieved',
                     'result' => 'success'
                 ]);
             }
-            $roles = $roles->paginate($request->size_page);
+            $users = $users::paginate($request->size_page);
             return response()->json([
-                'data' => $roles,
-                'message' => 'Roles retrieved',
+                'data' => $users,
+                'message' => 'Users retrieved',
                 'result' => 'success'
             ]);
         } catch (\Throwable $th) {
@@ -55,14 +53,16 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         try {
-            $role = Role::create($request->all());
-            foreach($request->permissions as $permission){
-                $validPermissions[] = $permission['id'];
+            $request['password'] = bcrypt($request->password);
+
+            $user = User::create(['tenant_id' => Auth::user()->tenant_id] + $request->all());
+            foreach($request->roles as $role){
+                $validRoles[] = $role['id'];
             }
-            $role->asyncPermissions($validPermissions);
+            $user->asyncRoles($validRoles);
             $response = [
-                'data' => $role->load('permissions'),
-                'message' => 'Role created',
+                'data' => $user->load('roles'),
+                'message' => 'User created',
                 'result' => 'success'
             ];
             return response()->json($response, 201);
@@ -85,10 +85,10 @@ class RoleController extends Controller
     public function show($id)
     {
         try {
-            $role = Role::find($id);
+            $user = User::find($id);
             $response = [
-                'data' => $role,
-                'message' => 'Role retrieved',
+                'data' => $user,
+                'message' => 'User retrieved',
                 'result' => 'success'
             ];
             return response()->json($response);
@@ -112,18 +112,18 @@ class RoleController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $role = Role::find($id);
-            $role->update($request->all());
+            $user = User::find($id);
+            $user->update($request->all());
 
-            foreach($request->permissions as $permission){
-                $validPermissions[] = $permission['id'];
+            foreach($request->roles as $role){
+                $validRoles[] = $role['id'];
             }
-            $role->permissions()->detach();
-            $role->asyncPermissions($validPermissions);
+            $user->roles()->detach();
+            $user->asyncRoles($validRoles);
 
             $response = [
-                'data' => $role->load('permissions'),
-                'message' => 'Role updated',
+                'data' => $user->load('roles'),
+                'message' => 'User updated',
                 'result' => 'success'
             ];
             return response()->json($response);
@@ -146,12 +146,12 @@ class RoleController extends Controller
     public function destroy($id)
     {
         try {
-            $role = Role::find($id);
-            $role->permissions()->detach();
-            $role->delete();
+            $user = User::find($id);
+            $user->roles()->detach();
+            $user->delete();
             $response = [
-                'data' => $role,
-                'message' => 'Role deleted',
+                'data' => $user,
+                'message' => 'User deleted',
                 'result' => 'success'
             ];
             return response()->json($response);

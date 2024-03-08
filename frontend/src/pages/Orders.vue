@@ -1,5 +1,5 @@
 <template>
-    <CatalogsLayout title="Pedidos">
+    <AppLayout title="Pedidos">
         <template v-slot:actions>
             <PlusIcon v-on:click="openOrderModal" class="w-8 cursor-pointer hover:scale-125 bg-gray-800 rounded-md p-1"/>
         </template>
@@ -16,14 +16,14 @@
                 <DangerButton v-on:click="closeOrderModal">Cancelar</DangerButton>
             </template>
         </Modal>
-    </CatalogsLayout>
+    </AppLayout>
 </template>
 <script lang="ts" setup>
     import { ref } from "vue";
     import Modal from "@components/Containers/Modal.vue";
     import PrimaryButton from "@forms/PrimaryButton.vue";
     import DangerButton from "@forms/DangerButton.vue";
-    import CatalogsLayout from "@layouts/App.vue";
+    import AppLayout from "@layouts/App.vue";
     import { PlusIcon  } from "@heroicons/vue/24/outline";
 
     const order = ref({

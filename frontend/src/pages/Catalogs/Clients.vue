@@ -1,5 +1,5 @@
 <template>
-    <CatalogsLayout title="Clientes">
+    <AppLayout title="Clientes">
         <template v-slot:actions>
             <Search
                 id="client-search-input"
@@ -15,7 +15,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Acciones</th>
+                        <th class="w-1/12">Acciones</th>
                         <th>Código</th>
                         <th>Nombre</th>
                         <th>Rfc</th>
@@ -161,13 +161,13 @@
             @success="deleteClient"
             @cancel="erase"
         />
-    </CatalogsLayout>
+    </AppLayout>
 </template>
 <script lang="ts">
 import Modal from '@components/Containers/Modal.vue'
 import PrimaryButton from '@forms/PrimaryButton.vue'
 import DangerButton from '@forms/DangerButton.vue'
-import CatalogsLayout from '@layouts/App.vue'
+import AppLayout from '@layouts/App.vue'
 import {
     PlusIcon,
     PencilSquareIcon,
@@ -190,7 +190,7 @@ export default {
         Modal,
         PrimaryButton,
         DangerButton,
-        CatalogsLayout,
+        AppLayout,
         PlusIcon,
         Input,
         PencilSquareIcon,

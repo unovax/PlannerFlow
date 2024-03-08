@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Role;
+use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class RoleController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,24 +15,20 @@ class RoleController extends Controller
     public function index(Request $request)
     {
         try {
-            $roles = Role::where('tenant_id', Auth::user()->tenant_id);
             if($request->has('search')){
-                $roles = Role::
-                    with('permissions')
-                    ->where('code', 'like', '%'.$request->search.'%')
-                    ->orWhere('name', 'like', '%'.$request->search.'%')
-                    ->orWhere('description', 'like', '%'.$request->search.'%')
+                $categories = Category::
+                    where('name', 'like', '%'.$request->search.'%')
                     ->paginate($request->size_page);
                 return response()->json([
-                    'data' => $roles,
-                    'message' => 'Roles retrieved',
+                    'data' => $categories,
+                    'message' => 'Categories retrieved',
                     'result' => 'success'
                 ]);
             }
-            $roles = $roles->paginate($request->size_page);
+            $categories = Category::paginate($request->size_page);
             return response()->json([
-                'data' => $roles,
-                'message' => 'Roles retrieved',
+                'data' => $categories,
+                'message' => 'Categories retrieved',
                 'result' => 'success'
             ]);
         } catch (\Throwable $th) {
@@ -55,14 +50,10 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         try {
-            $role = Role::create($request->all());
-            foreach($request->permissions as $permission){
-                $validPermissions[] = $permission['id'];
-            }
-            $role->asyncPermissions($validPermissions);
+            $category = Category::create($request->all());
             $response = [
-                'data' => $role->load('permissions'),
-                'message' => 'Role created',
+                'data' => $category,
+                'message' => 'Category created',
                 'result' => 'success'
             ];
             return response()->json($response, 201);
@@ -85,10 +76,10 @@ class RoleController extends Controller
     public function show($id)
     {
         try {
-            $role = Role::find($id);
+            $category = Category::find($id);
             $response = [
-                'data' => $role,
-                'message' => 'Role retrieved',
+                'data' => $category,
+                'message' => 'Category retrieved',
                 'result' => 'success'
             ];
             return response()->json($response);
@@ -112,18 +103,11 @@ class RoleController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $role = Role::find($id);
-            $role->update($request->all());
-
-            foreach($request->permissions as $permission){
-                $validPermissions[] = $permission['id'];
-            }
-            $role->permissions()->detach();
-            $role->asyncPermissions($validPermissions);
-
+            $category = Category::find($id);
+            $category->update($request->all());
             $response = [
-                'data' => $role->load('permissions'),
-                'message' => 'Role updated',
+                'data' => $category,
+                'message' => 'Category updated',
                 'result' => 'success'
             ];
             return response()->json($response);
@@ -146,12 +130,11 @@ class RoleController extends Controller
     public function destroy($id)
     {
         try {
-            $role = Role::find($id);
-            $role->permissions()->detach();
-            $role->delete();
+            $category = Category::find($id);
+            $category->delete();
             $response = [
-                'data' => $role,
-                'message' => 'Role deleted',
+                'data' => $category,
+                'message' => 'Category deleted',
                 'result' => 'success'
             ];
             return response()->json($response);
